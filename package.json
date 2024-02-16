@@ -1,0 +1,36 @@
+{
+  "name": "zeug",
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "debug": "^4.3.4",
+    "fs-extra": "^11.2.0",
+    "lodash-es": "^4.17.21",
+    "p-retry": "^6.1.0",
+    "super-regex": "^0.3.0",
+    "type-fest": "^4.8.3",
+    "yaml": "^2.3.4",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "@types/yargs": "^17.0.32",
+    "eslint-config-jaid": "^8.18.1",
+    "tsconfig-jaid-node": "^6.1.1",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
+    "build": "tsc",
+    "test": "printf '%s\\n' 'Script behaviour not specified' >&2"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
+    },
+    "./path": {
+      "import": "./src/entry/mixedPath/mixedPath.js"
+    }
+  }
+}
