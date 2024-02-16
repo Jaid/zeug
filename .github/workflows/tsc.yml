@@ -1,0 +1,37 @@
+name: Build with tsc and publish to tsc branch
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: checkout
+        uses: actions/checkout@v4.1.1
+      - name: setupNode
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: latest
+      - name: installNodePackages
+        id: installNodePackages
+        uses: jaid/action-npm-install@main
+      - id: build
+        name: build
+        run: npm run build
+      - id: moveFiles
+        name: moveFiles
+        run: |-
+          mkdir --parents dist/tsc
+          mv out/ts/src dist/tsc
+          cp package.json dist/tsc
+          cp license.txt dist/tsc
+      - name: s0/git-publish-subdir-action
+        uses: s0/git-publish-subdir-action@v2.6.0
+        env:
+          REPO: self
+          BRANCH: tsc
+          FOLDER: dist/tsc
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Build with tsc: ({sha}) {msg}"
+          SKIP_EMPTY_COMMITS: true
