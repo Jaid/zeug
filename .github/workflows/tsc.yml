@@ -1,4 +1,6 @@
 name: Build with tsc and publish to tsc branch
+permissions:
+  contents: write
 on:
   push:
     branches: [main]
