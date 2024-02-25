@@ -2,12 +2,6 @@
   "name": "zeug",
   "version": "0.1.0",
   "type": "module",
-  "dependencies": {
-    "chalk": "^5.3.0",
-    "debug": "^4.3.4",
-    "lodash-es": "^4.17.21",
-    "p-retry": "^6.2.0"
-  },
   "peerDependencies": {
     "handlebars": "^4.7.8",
     "type-fest": "^4.10.3",
