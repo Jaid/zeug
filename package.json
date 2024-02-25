@@ -2,6 +2,11 @@
   "name": "zeug",
   "version": "0.1.0",
   "type": "module",
+  "scripts": {
+    "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
+    "build": "tsc",
+    "test": "printf '%s\\n' 'Script behaviour not specified' >&2"
+  },
   "peerDependencies": {
     "handlebars": "^4.7.8",
     "type-fest": "^4.10.3",
@@ -9,26 +14,6 @@
     "super-regex": "^0.3.0",
     "fs-extra": "^11.2.0",
     "yaml": "^2.3.4"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.20",
-    "@types/yargs": "^17.0.32",
-    "eslint-config-jaid": "^8.19.0",
-    "tsconfig-jaid-node": "^6.1.1",
-    "typescript": "^5.3.3"
-  },
-  "scripts": {
-    "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
-    "build": "tsc",
-    "test": "printf '%s\\n' 'Script behaviour not specified' >&2"
-  },
-  "exports": {
-    ".": {
-      "import": "./src/index.js"
-    },
-    "./path": {
-      "import": "./src/entry/mixedPath/mixedPath.js"
-    }
   },
   "peerDependenciesMeta": {
     "handlebars": {
@@ -48,6 +33,21 @@
     },
     "yaml": {
       "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "@types/yargs": "^17.0.32",
+    "eslint-config-jaid": "^8.20.0",
+    "tsconfig-jaid-node": "^6.1.1",
+    "typescript": "^5.3.3"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
+    },
+    "./path": {
+      "import": "./src/entry/mixedPath/mixedPath.js"
     }
   }
 }
