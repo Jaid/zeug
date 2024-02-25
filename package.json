@@ -51,6 +51,12 @@
     "@types/yargs": "^17.0.32",
     "eslint-config-jaid": "^8.20.0",
     "tsconfig-jaid-node": "^6.1.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "handlebars": "^4.7.8",
+    "type-fest": "^4.10.3",
+    "yargs": "^17.7.2",
+    "super-regex": "^0.3.0",
+    "fs-extra": "^11.2.0",
+    "yaml": "^2.3.4"
   }
 }
