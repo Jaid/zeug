@@ -7,7 +7,10 @@
       "import": "./src/index.js"
     },
     "./path": {
-      "import": "./src/entry/mixedPath/mixedPath.js"
+      "import": "./src/entry/mixedPath/index.js"
+    },
+    "./types": {
+      "import": "./src/types/index.js"
     }
   },
   "scripts": {
