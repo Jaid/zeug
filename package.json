@@ -2,6 +2,14 @@
   "name": "zeug",
   "version": "0.1.0",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
+    },
+    "./path": {
+      "import": "./src/entry/mixedPath/mixedPath.js"
+    }
+  },
   "scripts": {
     "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "build": "tsc",
@@ -41,13 +49,5 @@
     "eslint-config-jaid": "^8.20.0",
     "tsconfig-jaid-node": "^6.1.1",
     "typescript": "^5.3.3"
-  },
-  "exports": {
-    ".": {
-      "import": "./src/index.js"
-    },
-    "./path": {
-      "import": "./src/entry/mixedPath/mixedPath.js"
-    }
   }
 }
