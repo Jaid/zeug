@@ -5,13 +5,16 @@
   "dependencies": {
     "chalk": "^5.3.0",
     "debug": "^4.3.4",
-    "fs-extra": "^11.2.0",
     "lodash-es": "^4.17.21",
-    "p-retry": "^6.2.0",
-    "super-regex": "^0.3.0",
+    "p-retry": "^6.2.0"
+  },
+  "peerDependencies": {
+    "handlebars": "^4.7.8",
     "type-fest": "^4.10.3",
-    "yaml": "^2.3.4",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "super-regex": "^0.3.0",
+    "fs-extra": "^11.2.0",
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
@@ -31,6 +34,26 @@
     },
     "./path": {
       "import": "./src/entry/mixedPath/mixedPath.js"
+    }
+  },
+  "peerDependenciesMeta": {
+    "handlebars": {
+      "optional": true
+    },
+    "type-fest": {
+      "optional": true
+    },
+    "yargs": {
+      "optional": true
+    },
+    "super-regex": {
+      "optional": true
+    },
+    "fs-extra": {
+      "optional": true
+    },
+    "yaml": {
+      "optional": true
     }
   }
 }
