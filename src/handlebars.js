@@ -3,15 +3,24 @@ export const makeHandlebars = () => {
     const handlebars = Handlebars.create();
     return handlebars;
 };
-export const resolveTemplate = (template, context) => {
-    const handlebars = makeHandlebars();
-    const resolvedTemplate = handlebars.compile(template, {
+export const makeHandlebarsRenderer = (template) => {
+    const templateResolver = Handlebars.compile(template, {
         noEscape: true,
+        knownHelpersOnly: true,
     });
-    return resolvedTemplate(context);
+    return templateResolver;
 };
-export const resolveHtmlTemplate = (template, context) => {
-    const handlebars = makeHandlebars();
-    const resolvedTemplate = handlebars.compile(template);
-    return resolvedTemplate(context);
+export const renderHandlebars = (template, context) => {
+    const templateResolver = makeHandlebarsRenderer(template);
+    return templateResolver(context);
+};
+export const makeHtmlHandlebarsRenderer = (template) => {
+    const templateResolver = Handlebars.compile(template, {
+        knownHelpersOnly: true,
+    });
+    return templateResolver;
+};
+export const renderHtmlHandlebars = (template, context) => {
+    const templateResolver = makeHtmlHandlebarsRenderer(template);
+    return templateResolver(context);
 };
