@@ -1,85 +1,53 @@
 import Handlebars from 'handlebars'
 
-export const makeHandlebars = () => {
-  const handlebars = Handlebars.create()
-  const compileNative = handlebars.compile
-  handlebars.compile = (template: string) => {
-    return compileNative(template, {
-      noEscape: true,
-      knownHelpersOnly: true,
-    })
-  }
-  const precompileNative = handlebars.precompile
-  handlebars.precompile = (template: string) => {
-    return precompileNative(template, {
-      noEscape: true,
-      knownHelpersOnly: true,
-    })
-  }
+type CompileOptions = Parameters<(typeof Handlebars)['compile']>[1]
+type PrecompileOptions = Parameters<(typeof Handlebars)['precompile']>[1]
+
+const defaultCompileOptions: CompileOptions = {
+  noEscape: true,
+  knownHelpersOnly: true,
+}
+const defaultHtmlCompileOptions: CompileOptions = {
+  knownHelpersOnly: true,
 }
 
-export const makeHandlebarsWithHelpers = (helpers: Record<string, Handlebars.HelperDelegate>) => {
+export const makeHandlebars = (compileOptions: CompileOptions = defaultCompileOptions) => {
   const handlebars = Handlebars.create()
-  const knownHelpers = {}
-  for (const [name, helper] of Object.entries(helpers)) {
-    handlebars.registerHelper(name, helper)
-    knownHelpers[name] = true
-  }
   const compileNative = handlebars.compile
-  handlebars.compile = (template: string) => {
+  handlebars.compile = function (template: string, options: CompileOptions) {
     return compileNative(template, {
-      noEscape: true,
-      knownHelpersOnly: true,
-      knownHelpers,
+      ...compileOptions,
+      ...options,
     })
   }
   const precompileNative = handlebars.precompile
-  handlebars.precompile = (template: string) => {
+  handlebars.precompile = function (template: string, options: PrecompileOptions) {
     return precompileNative(template, {
-      noEscape: true,
-      knownHelpersOnly: true,
-      knownHelpers,
+      ...compileOptions,
+      ...options,
     })
   }
+  return handlebars
 }
 
-export const makeHtmlHandlebars = () => {
-  const handlebars = Handlebars.create()
-  const compileNative = handlebars.compile
-  handlebars.compile = (template: string) => {
-    return compileNative(template, {
-      knownHelpersOnly: true,
-    })
+export const makeHandlebarsWithHelpers = (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions: CompileOptions = defaultCompileOptions) => {
+  const knownHelpers = Object.fromEntries(Object.keys(helpers).map(key => [key, true]))
+  const handlebars = makeHandlebars({
+    ...compileOptions,
+    knownHelpers,
+  })
+  for (const [key, value] of Object.entries(helpers)) {
+    handlebars.registerHelper(key, value)
   }
-  const precompileNative = handlebars.precompile
-  handlebars.precompile = (template: string) => {
-    return precompileNative(template, {
-      knownHelpersOnly: true,
-    })
-  }
+  return handlebars
 }
 
-export const makeHtmlHandlebarsWithHelpers = (helpers: Record<string, Handlebars.HelperDelegate>) => {
-  const handlebars = Handlebars.create()
-  const knownHelpers = {}
-  for (const [name, helper] of Object.entries(helpers)) {
-    handlebars.registerHelper(name, helper)
-    knownHelpers[name] = true
-  }
-  const compileNative = handlebars.compile
-  handlebars.compile = (template: string) => {
-    return compileNative(template, {
-      knownHelpersOnly: true,
-      knownHelpers,
-    })
-  }
-  const precompileNative = handlebars.precompile
-  handlebars.precompile = (template: string) => {
-    return precompileNative(template, {
-      knownHelpersOnly: true,
-      knownHelpers,
-    })
-  }
+export const makeHtmlHandlebars = (compileOptions: CompileOptions = defaultHtmlCompileOptions) => {
+  return makeHandlebars(compileOptions)
+}
+
+export const makeHtmlHandlebarsWithHelpers = (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions: CompileOptions = defaultHtmlCompileOptions) => {
+  return makeHandlebarsWithHelpers(helpers, compileOptions)
 }
 
 export const makeHandlebarsRenderer = (template: string) => {
