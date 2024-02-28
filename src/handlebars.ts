@@ -50,8 +50,8 @@ export const makeHtmlHandlebarsWithHelpers = (helpers: Record<string, Handlebars
   return makeHandlebarsWithHelpers(helpers, compileOptions)
 }
 
-export const makeHandlebarsRenderer = (template: string) => {
-  const templateResolver = Handlebars.compile(template, {
+export const makeHandlebarsRenderer = <ContextGeneric = any>(template: string) => {
+  const templateResolver = Handlebars.compile<ContextGeneric>(template, {
     noEscape: true,
     knownHelpersOnly: true,
   })
@@ -63,8 +63,8 @@ export const renderHandlebars = (template: string, context: Record<string, unkno
   return templateResolver(context)
 }
 
-export const makeHtmlHandlebarsRenderer = (template: string) => {
-  const templateResolver = Handlebars.compile(template, {
+export const makeHtmlHandlebarsRenderer = <ContextGeneric = any>(template: string) => {
+  const templateResolver = Handlebars.compile<ContextGeneric>(template, {
     knownHelpersOnly: true,
   })
   return templateResolver
