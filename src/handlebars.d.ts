@@ -4,8 +4,8 @@ export declare const makeHandlebars: (compileOptions?: CompileOptions) => typeof
 export declare const makeHandlebarsWithHelpers: (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions?: CompileOptions) => typeof Handlebars;
 export declare const makeHtmlHandlebars: (compileOptions?: CompileOptions) => typeof Handlebars;
 export declare const makeHtmlHandlebarsWithHelpers: (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions?: CompileOptions) => typeof Handlebars;
-export declare const makeHandlebarsRenderer: (template: string) => HandlebarsTemplateDelegate<any>;
+export declare const makeHandlebarsRenderer: <ContextGeneric = any>(template: string) => HandlebarsTemplateDelegate<ContextGeneric>;
 export declare const renderHandlebars: (template: string, context: Record<string, unknown>) => string;
-export declare const makeHtmlHandlebarsRenderer: (template: string) => HandlebarsTemplateDelegate<any>;
+export declare const makeHtmlHandlebarsRenderer: <ContextGeneric = any>(template: string) => HandlebarsTemplateDelegate<ContextGeneric>;
 export declare const renderHtmlHandlebars: (template: string, context: Record<string, unknown>) => string;
 export {};
