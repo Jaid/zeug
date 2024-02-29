@@ -50,27 +50,28 @@ export const makeHtmlHandlebarsWithHelpers = (helpers: Record<string, Handlebars
   return makeHandlebarsWithHelpers(helpers, compileOptions)
 }
 
-export const makeHandlebarsRenderer = <ContextGeneric = any>(template: string) => {
-  const templateResolver = Handlebars.compile<ContextGeneric>(template, {
-    noEscape: true,
-    knownHelpersOnly: true,
-  })
-  return templateResolver
+export const makeHandlebarsRenderer = <ContextGeneric = any>(template: string, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  if (helpers === undefined) {
+    return Handlebars.compile<ContextGeneric>(template, defaultCompileOptions)
+  }
+  const handlebars = makeHandlebarsWithHelpers(helpers)
+  return handlebars.compile<ContextGeneric>(template)
 }
 
-export const renderHandlebars = (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => {
-  const templateResolver = helpers === undefined ? makeHandlebarsRenderer(template) : makeHandlebarsWithHelpers(helpers).compile(template)
+export const renderHandlebars = <ContextGeneric = any>(template: string, context: ContextGeneric, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  const templateResolver = helpers === undefined ? makeHandlebarsRenderer<ContextGeneric>(template) : makeHandlebarsWithHelpers(helpers).compile<ContextGeneric>(template)
   return templateResolver(context)
 }
 
-export const makeHtmlHandlebarsRenderer = <ContextGeneric = any>(template: string) => {
-  const templateResolver = Handlebars.compile<ContextGeneric>(template, {
-    knownHelpersOnly: true,
-  })
-  return templateResolver
+export const makeHtmlHandlebarsRenderer = <ContextGeneric = any>(template: string, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  if (helpers === undefined) {
+    return Handlebars.compile<ContextGeneric>(template, defaultHtmlCompileOptions)
+  }
+  const handlebars = makeHtmlHandlebarsWithHelpers(helpers)
+  return handlebars.compile<ContextGeneric>(template)
 }
 
-export const renderHtmlHandlebars = (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => {
-  const templateResolver = helpers === undefined ? makeHtmlHandlebarsRenderer(template) : makeHtmlHandlebarsWithHelpers(helpers).compile(template)
+export const renderHtmlHandlebars = <ContextGeneric = any>(template: string, context: ContextGeneric, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  const templateResolver = helpers === undefined ? makeHtmlHandlebarsRenderer<ContextGeneric>(template) : makeHtmlHandlebarsWithHelpers(helpers).compile<ContextGeneric>(template)
   return templateResolver(context)
 }
