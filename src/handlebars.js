@@ -41,22 +41,23 @@ export const makeHtmlHandlebars = (compileOptions = defaultHtmlCompileOptions) =
 export const makeHtmlHandlebarsWithHelpers = (helpers, compileOptions = defaultHtmlCompileOptions) => {
     return makeHandlebarsWithHelpers(helpers, compileOptions);
 };
-export const makeHandlebarsRenderer = (template) => {
-    const templateResolver = Handlebars.compile(template, {
-        noEscape: true,
-        knownHelpersOnly: true,
-    });
-    return templateResolver;
+export const makeHandlebarsRenderer = (template, helpers) => {
+    if (helpers === undefined) {
+        return Handlebars.compile(template, defaultCompileOptions);
+    }
+    const handlebars = makeHandlebarsWithHelpers(helpers);
+    return handlebars.compile(template);
 };
 export const renderHandlebars = (template, context, helpers) => {
     const templateResolver = helpers === undefined ? makeHandlebarsRenderer(template) : makeHandlebarsWithHelpers(helpers).compile(template);
     return templateResolver(context);
 };
-export const makeHtmlHandlebarsRenderer = (template) => {
-    const templateResolver = Handlebars.compile(template, {
-        knownHelpersOnly: true,
-    });
-    return templateResolver;
+export const makeHtmlHandlebarsRenderer = (template, helpers) => {
+    if (helpers === undefined) {
+        return Handlebars.compile(template, defaultHtmlCompileOptions);
+    }
+    const handlebars = makeHtmlHandlebarsWithHelpers(helpers);
+    return handlebars.compile(template);
 };
 export const renderHtmlHandlebars = (template, context, helpers) => {
     const templateResolver = helpers === undefined ? makeHtmlHandlebarsRenderer(template) : makeHtmlHandlebarsWithHelpers(helpers).compile(template);

@@ -4,8 +4,8 @@ export declare const makeHandlebars: (compileOptions?: CompileOptions) => typeof
 export declare const makeHandlebarsWithHelpers: (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions?: CompileOptions) => typeof Handlebars;
 export declare const makeHtmlHandlebars: (compileOptions?: CompileOptions) => typeof Handlebars;
 export declare const makeHtmlHandlebarsWithHelpers: (helpers: Record<string, Handlebars.HelperDelegate>, compileOptions?: CompileOptions) => typeof Handlebars;
-export declare const makeHandlebarsRenderer: <ContextGeneric = any>(template: string) => HandlebarsTemplateDelegate<ContextGeneric>;
-export declare const renderHandlebars: (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => string;
-export declare const makeHtmlHandlebarsRenderer: <ContextGeneric = any>(template: string) => HandlebarsTemplateDelegate<ContextGeneric>;
-export declare const renderHtmlHandlebars: (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => string;
+export declare const makeHandlebarsRenderer: <ContextGeneric = any>(template: string, helpers?: Record<string, Handlebars.HelperDelegate>) => HandlebarsTemplateDelegate<ContextGeneric>;
+export declare const renderHandlebars: <ContextGeneric = any>(template: string, context: ContextGeneric, helpers?: Record<string, Handlebars.HelperDelegate>) => string;
+export declare const makeHtmlHandlebarsRenderer: <ContextGeneric = any>(template: string, helpers?: Record<string, Handlebars.HelperDelegate>) => HandlebarsTemplateDelegate<ContextGeneric>;
+export declare const renderHtmlHandlebars: <ContextGeneric = any>(template: string, context: ContextGeneric, helpers?: Record<string, Handlebars.HelperDelegate>) => string;
 export {};
