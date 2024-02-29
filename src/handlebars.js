@@ -48,8 +48,8 @@ export const makeHandlebarsRenderer = (template) => {
     });
     return templateResolver;
 };
-export const renderHandlebars = (template, context) => {
-    const templateResolver = makeHandlebarsRenderer(template);
+export const renderHandlebars = (template, context, helpers) => {
+    const templateResolver = helpers === undefined ? makeHandlebarsRenderer(template) : makeHandlebarsWithHelpers(helpers).compile(template);
     return templateResolver(context);
 };
 export const makeHtmlHandlebarsRenderer = (template) => {
@@ -58,7 +58,7 @@ export const makeHtmlHandlebarsRenderer = (template) => {
     });
     return templateResolver;
 };
-export const renderHtmlHandlebars = (template, context) => {
-    const templateResolver = makeHtmlHandlebarsRenderer(template);
+export const renderHtmlHandlebars = (template, context, helpers) => {
+    const templateResolver = helpers === undefined ? makeHtmlHandlebarsRenderer(template) : makeHtmlHandlebarsWithHelpers(helpers).compile(template);
     return templateResolver(context);
 };
