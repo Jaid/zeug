@@ -58,8 +58,8 @@ export const makeHandlebarsRenderer = <ContextGeneric = any>(template: string) =
   return templateResolver
 }
 
-export const renderHandlebars = (template: string, context: Record<string, unknown>) => {
-  const templateResolver = makeHandlebarsRenderer(template)
+export const renderHandlebars = (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  const templateResolver = helpers === undefined ? makeHandlebarsRenderer(template) : makeHandlebarsWithHelpers(helpers).compile(template)
   return templateResolver(context)
 }
 
@@ -70,7 +70,7 @@ export const makeHtmlHandlebarsRenderer = <ContextGeneric = any>(template: strin
   return templateResolver
 }
 
-export const renderHtmlHandlebars = (template: string, context: Record<string, unknown>) => {
-  const templateResolver = makeHtmlHandlebarsRenderer(template)
+export const renderHtmlHandlebars = (template: string, context: Record<string, unknown>, helpers?: Record<string, Handlebars.HelperDelegate>) => {
+  const templateResolver = helpers === undefined ? makeHtmlHandlebarsRenderer(template) : makeHtmlHandlebarsWithHelpers(helpers).compile(template)
   return templateResolver(context)
 }
