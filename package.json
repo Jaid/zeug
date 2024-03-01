@@ -47,10 +47,10 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^20.11.22",
+    "@types/node": "^20.11.24",
     "@types/yargs": "^17.0.32",
-    "eslint-config-jaid": "^8.22.0",
-    "tsconfig-jaid-node": "^6.1.1",
+    "eslint-config-jaid": "^8.23.0",
+    "tsconfig-jaid-node": "^7.0.0",
     "typescript": "^5.3.3",
     "handlebars": "^4.7.8",
     "type-fest": "^4.10.3",
