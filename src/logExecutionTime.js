@@ -1,4 +1,4 @@
-export function withTimer(options = {}) {
+export function logExecutionTime(options = {}) {
     return (target, propertyKey, descriptor) => {
         const originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
