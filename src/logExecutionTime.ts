@@ -20,7 +20,7 @@ type Options = {
 export function logExecutionTime<T extends (...args: any) => any>(options: Options = {}) {
   return (target: any, propertyKey: string | Symbol, descriptor: PropertyDescriptor) => {
     if (options.log === null) {
-      return
+      return descriptor
     }
     const originalMethod = descriptor.value as T
     descriptor.value = async function (...args: Parameters<T>) {
