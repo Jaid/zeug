@@ -1,5 +1,9 @@
 export function logExecutionTime(options = {}) {
     return (target, propertyKey, descriptor) => {
+        if (options.log === null) {
+            return;
+        }
+        const log = options.log;
         const originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
             const start = performance.now();
@@ -17,8 +21,17 @@ export function logExecutionTime(options = {}) {
             else {
                 msFormatted = msNeeded.toFixed(fractionDigits);
             }
-            if (options.log !== undefined) {
-                options.log(msFormatted, msNeeded);
+            if (log !== undefined) {
+                if (typeof log === `string`) {
+                    const message = log
+                        .replaceAll(`{propertyKey}`, `${propertyKey}`)
+                        .replaceAll(`{msFormatted}`, msFormatted)
+                        .replaceAll(`{msRaw}`, `${msNeeded}`);
+                    console.log(message);
+                }
+                else {
+                    log(msFormatted, msNeeded);
+                }
             }
             else {
                 console.log(`${propertyKey} took ${msFormatted} ms`);
