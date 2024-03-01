@@ -3,41 +3,56 @@ export function logExecutionTime(options = {}) {
         if (options.log === null) {
             return descriptor;
         }
-        const originalMethod = descriptor.value;
-        descriptor.value = async function (...args) {
-            const start = performance.now();
-            const result = await originalMethod.apply(this, args);
-            const end = performance.now();
-            const msNeeded = end - start;
+        const log = (ms) => {
             const fractionDigits = options.fractionDigits ?? 2;
             let msFormatted;
             if (fractionDigits === 0) {
-                msFormatted = `${Math.trunc(msNeeded)}`;
+                msFormatted = `${Math.trunc(ms)}`;
                 if (msFormatted === `0`) {
                     msFormatted = `1`;
                 }
             }
             else {
-                msFormatted = msNeeded.toFixed(fractionDigits);
+                msFormatted = ms.toFixed(fractionDigits);
             }
             let messageResolved;
             if (options.message !== undefined) {
                 messageResolved = options.message
                     .replace(`{function}`, `${propertyKey}`)
                     .replace(`{ms}`, msFormatted)
-                    .replace(`{msRaw}`, `${msNeeded}`);
+                    .replace(`{msRaw}`, `${ms}`);
             }
             else {
                 messageResolved = `${propertyKey} took ${msFormatted} ms`;
             }
             if (options.log !== undefined) {
                 // @ts-expect-error: It says options.log can be null, which is not true
-                await options.log(messageResolved);
+                options.log(messageResolved);
             }
             else {
                 console.log(messageResolved);
             }
-            return result;
+        };
+        const originalMethod = descriptor.value;
+        descriptor.value = function (...args) {
+            const start = performance.now();
+            const result = originalMethod.apply(this, args);
+            const isPromise = result && typeof result.then === `function`;
+            if (isPromise) {
+                const asyncResult = result;
+                return asyncResult.then(promiseResult => {
+                    const end = performance.now();
+                    const ms = end - start;
+                    log(ms);
+                    return promiseResult;
+                });
+            }
+            else {
+                const end = performance.now();
+                const ms = end - start;
+                log(ms);
+                return result;
+            }
         };
         return descriptor;
     };
