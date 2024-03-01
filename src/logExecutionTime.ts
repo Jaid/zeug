@@ -1,3 +1,4 @@
+type FormatHandler = (msFormatted: string, msRaw: number) => string
 type Options = {
   /**
    * The number of fraction digits to use when formatting the time in milliseconds.
@@ -8,11 +9,15 @@ type Options = {
    * A function to call with the formatted time in milliseconds and the raw time in milliseconds.
    * @default (msFormatted, msRaw) => console.log(`${propertyKey} took ${msFormatted} ms`)
    */
-  log?: (msFormatted: string, msRaw: number) => void
+  log?: FormatHandler | string | null
 }
 
 export function logExecutionTime<T extends (...args: any) => any>(options: Options = {}) {
   return (target: any, propertyKey: string | Symbol, descriptor: PropertyDescriptor) => {
+    if (options.log === null) {
+      return
+    }
+    const log = options.log
     const originalMethod = descriptor.value as T
     descriptor.value = async function (...args: Parameters<T>) {
       const start = performance.now()
@@ -29,8 +34,16 @@ export function logExecutionTime<T extends (...args: any) => any>(options: Optio
       } else {
         msFormatted = msNeeded.toFixed(fractionDigits)
       }
-      if (options.log !== undefined) {
-        options.log(msFormatted, msNeeded)
+      if (log !== undefined) {
+        if (typeof log === `string`) {
+          const message = log
+            .replaceAll(`{propertyKey}`, `${propertyKey}`)
+            .replaceAll(`{msFormatted}`, msFormatted)
+            .replaceAll(`{msRaw}`, `${msNeeded}`)
+          console.log(message)
+        } else {
+          log(msFormatted, msNeeded)
+        }
       } else {
         console.log(`${propertyKey} took ${msFormatted} ms`)
       }
