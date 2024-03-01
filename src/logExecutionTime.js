@@ -3,7 +3,6 @@ export function logExecutionTime(options = {}) {
         if (options.log === null) {
             return;
         }
-        const log = options.log;
         const originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
             const start = performance.now();
@@ -21,20 +20,22 @@ export function logExecutionTime(options = {}) {
             else {
                 msFormatted = msNeeded.toFixed(fractionDigits);
             }
-            if (log !== undefined) {
-                if (typeof log === `string`) {
-                    const message = log
-                        .replaceAll(`{propertyKey}`, `${propertyKey}`)
-                        .replaceAll(`{msFormatted}`, msFormatted)
-                        .replaceAll(`{msRaw}`, `${msNeeded}`);
-                    console.log(message);
-                }
-                else {
-                    log(msFormatted, msNeeded);
-                }
+            let messageResolved;
+            if (options.message !== undefined) {
+                messageResolved = options.message
+                    .replace(`{function}`, `${propertyKey}`)
+                    .replace(`{ms}`, msFormatted)
+                    .replace(`{msRaw}`, `${msNeeded}`);
             }
             else {
-                console.log(`${propertyKey} took ${msFormatted} ms`);
+                messageResolved = `${propertyKey} took ${msFormatted} ms`;
+            }
+            if (options.log !== undefined) {
+                // @ts-expect-error: It says options.log can be null, which is not true
+                await options.log(messageResolved);
+            }
+            else {
+                console.log(messageResolved);
             }
             return result;
         };
