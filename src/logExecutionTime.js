@@ -1,7 +1,7 @@
 export function logExecutionTime(options = {}) {
     return (target, propertyKey, descriptor) => {
         if (options.log === null) {
-            return;
+            return descriptor;
         }
         const originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
