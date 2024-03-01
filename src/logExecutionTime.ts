@@ -1,4 +1,4 @@
-type FormatHandler = (msFormatted: string, msRaw: number) => string
+type LogHandler = (msFormatted: string, msRaw: number) => Promise<void> | void
 type Options = {
   /**
    * The number of fraction digits to use when formatting the time in milliseconds.
@@ -7,9 +7,14 @@ type Options = {
   fractionDigits?: number
   /**
    * A function to call with the formatted time in milliseconds and the raw time in milliseconds.
-   * @default (msFormatted, msRaw) => console.log(`${propertyKey} took ${msFormatted} ms`)
+   * @default (message: string) => console.log(message)
    */
-  log?: FormatHandler | string | null
+  log?: LogHandler | null
+  /**
+   * A template to use when formatting the time in milliseconds. The placeholders `{function}`, `{ms}` and `{msRaw}` will be resolved.
+   * @default '{function} took {ms} ms'
+   */
+  message?: string
 }
 
 export function logExecutionTime<T extends (...args: any) => any>(options: Options = {}) {
@@ -17,7 +22,6 @@ export function logExecutionTime<T extends (...args: any) => any>(options: Optio
     if (options.log === null) {
       return
     }
-    const log = options.log
     const originalMethod = descriptor.value as T
     descriptor.value = async function (...args: Parameters<T>) {
       const start = performance.now()
@@ -34,18 +38,20 @@ export function logExecutionTime<T extends (...args: any) => any>(options: Optio
       } else {
         msFormatted = msNeeded.toFixed(fractionDigits)
       }
-      if (log !== undefined) {
-        if (typeof log === `string`) {
-          const message = log
-            .replaceAll(`{propertyKey}`, `${propertyKey}`)
-            .replaceAll(`{msFormatted}`, msFormatted)
-            .replaceAll(`{msRaw}`, `${msNeeded}`)
-          console.log(message)
-        } else {
-          log(msFormatted, msNeeded)
-        }
+      let messageResolved: string
+      if (options.message !== undefined) {
+        messageResolved = options.message
+          .replace(`{function}`, `${propertyKey}`)
+          .replace(`{ms}`, msFormatted)
+          .replace(`{msRaw}`, `${msNeeded}`)
       } else {
-        console.log(`${propertyKey} took ${msFormatted} ms`)
+        messageResolved = `${propertyKey} took ${msFormatted} ms`
+      }
+      if (options.log !== undefined) {
+        // @ts-expect-error: It says options.log can be null, which is not true
+        await options.log(messageResolved)
+      } else {
+        console.log(messageResolved)
       }
       return result
     }
