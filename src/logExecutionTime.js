@@ -39,5 +39,6 @@ export function logExecutionTime(options = {}) {
             }
             return result;
         };
+        return descriptor;
     };
 }

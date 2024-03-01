@@ -16,5 +16,5 @@ type Options = {
      */
     message?: string;
 };
-export declare function logExecutionTime<T extends (...args: any) => any>(options?: Options): (target: any, propertyKey: string | Symbol, descriptor: PropertyDescriptor) => void;
+export declare function logExecutionTime<T extends (...args: any) => any>(options?: Options): (target: any, propertyKey: string | Symbol, descriptor: PropertyDescriptor) => PropertyDescriptor | undefined;
 export {};
