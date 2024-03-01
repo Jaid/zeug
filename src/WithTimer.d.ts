@@ -1,5 +1,6 @@
 type Options = {
-    log?: (ms: number) => void;
+    fractionDigits?: number;
+    log?: (msFormatted: string, msRaw: number) => void;
 };
-export declare function WithTimer<T extends (...args: any) => any>(options?: Options): (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function withTimer<T extends (...args: any) => any>(options?: Options): (target: any, propertyKey: string | Symbol, descriptor: PropertyDescriptor) => void;
 export {};

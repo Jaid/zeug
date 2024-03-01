@@ -1,15 +1,27 @@
-export function WithTimer(options) {
-    return function (_target, _propertyKey, descriptor) {
+export function withTimer(options = {}) {
+    return (target, propertyKey, descriptor) => {
         const originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
             const start = performance.now();
             const result = await originalMethod.apply(this, args);
             const end = performance.now();
-            if (options?.log) {
-                options.log(end - start);
+            const msNeeded = end - start;
+            const fractionDigits = options.fractionDigits ?? 2;
+            let msFormatted;
+            if (fractionDigits === 0) {
+                msFormatted = `${Math.trunc(msNeeded)}`;
+                if (msFormatted === `0`) {
+                    msFormatted = `1`;
+                }
             }
             else {
-                console.log(`${_propertyKey} took ${end - start}ms`);
+                msFormatted = msNeeded.toFixed(fractionDigits);
+            }
+            if (options.log !== undefined) {
+                options.log(msFormatted, msNeeded);
+            }
+            else {
+                console.log(`${propertyKey} took ${msFormatted} ms`);
             }
             return result;
         };
