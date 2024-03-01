@@ -22,38 +22,52 @@ export function logExecutionTime<T extends (...args: any) => any>(options: Optio
     if (options.log === null) {
       return descriptor
     }
-    const originalMethod = descriptor.value as T
-    descriptor.value = async function (...args: Parameters<T>) {
-      const start = performance.now()
-      const result = await originalMethod.apply(this, args) as ReturnType<T>
-      const end = performance.now()
-      const msNeeded = end - start
+    const log = (ms: number) => {
       const fractionDigits = options.fractionDigits ?? 2
       let msFormatted: string
       if (fractionDigits === 0) {
-        msFormatted = `${Math.trunc(msNeeded)}`
+        msFormatted = `${Math.trunc(ms)}`
         if (msFormatted === `0`) {
           msFormatted = `1`
         }
       } else {
-        msFormatted = msNeeded.toFixed(fractionDigits)
+        msFormatted = ms.toFixed(fractionDigits)
       }
       let messageResolved: string
       if (options.message !== undefined) {
         messageResolved = options.message
           .replace(`{function}`, `${propertyKey}`)
           .replace(`{ms}`, msFormatted)
-          .replace(`{msRaw}`, `${msNeeded}`)
+          .replace(`{msRaw}`, `${ms}`)
       } else {
         messageResolved = `${propertyKey} took ${msFormatted} ms`
       }
       if (options.log !== undefined) {
-        // @ts-expect-error: It says options.log can be null, which is not true
-        await options.log(messageResolved)
+      // @ts-expect-error: It says options.log can be null, which is not true
+        options.log(messageResolved)
       } else {
         console.log(messageResolved)
       }
-      return result
+    }
+    const originalMethod = descriptor.value as T
+    descriptor.value = function (...args: Parameters<T>) {
+      const start = performance.now()
+      const result = originalMethod.apply(this, args) as ReturnType<T>
+      const isPromise = result && typeof result.then === `function`
+      if (isPromise) {
+        const asyncResult = result as Promise<ReturnType<T>>
+        return asyncResult.then(promiseResult => {
+          const end = performance.now()
+          const ms = end - start
+          log(ms)
+          return promiseResult
+        })
+      } else {
+        const end = performance.now()
+        const ms = end - start
+        log(ms)
+        return result
+      }
     }
     return descriptor
   }
