@@ -55,5 +55,6 @@ export function logExecutionTime<T extends (...args: any) => any>(options: Optio
       }
       return result
     }
+    return descriptor
   }
 }
