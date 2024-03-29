@@ -104,6 +104,6 @@ const assertExtended = {
   lessThanOrEqual,
   numberBetween,
   notInteger,
-} as const
+}
 
 export {assertExtended as assert}
