@@ -15,8 +15,52 @@
   },
   "scripts": {
     "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
-    "build": "tsc",
-    "test": "printf '%s\\n' 'Script behaviour not specified' >&2"
+    "test": "printf '%s\\n' 'Script behaviour not specified' >&2",
+    "build": "wireit",
+    "build:production": "wireit",
+    "release": "wireit"
+  },
+  "wireit": {
+    "build:production": {
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "output": [
+        "dist/package/epoch-seconds/production"
+      ],
+      "files": [
+        "src/**/*",
+        "rollup.config.js",
+        "package.json"
+      ],
+      "command": "node node_modules/rollup/dist/bin/rollup --config"
+    },
+    "build": {
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "output": [
+        "dist/package/epoch-seconds/development"
+      ],
+      "files": [
+        "src/**/*",
+        "rollup.config.js",
+        "package.json"
+      ],
+      "command": "node node_modules/rollup/dist/bin/rollup --config"
+    },
+    "release": {
+      "dependencies": [
+        "build:production"
+      ],
+      "command": "fd --unrestricted --full-path 'dist/package/[\\w-]+/production/package.json' --exec bash -c 'npm publish {//}'"
+    },
+    "release:windows": {
+      "dependencies": [
+        "build:production"
+      ],
+      "command": "pwsh -Command \"Get-ChildItem -Path 'dist\\package\\*\\production\\package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
+    }
   },
   "dependencies": {
     "@prettier/sync": "^0.5.1",
@@ -54,6 +98,7 @@
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/yargs": "^17.0.32",
+    "dts-bundle-generator": "^9.3.1",
     "eslint-config-jaid": "^8.24.0",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8",

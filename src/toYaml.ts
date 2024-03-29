@@ -4,6 +4,8 @@ import console from 'node:console'
 
 import yaml, {Document, Scalar, YAMLMap} from 'yaml'
 
+import {formatCode} from 'src/formatCode.js'
+
 type StringifyReplacer = Parameters<typeof yaml["stringify"]>["1"]
 type StringifyOptions = Parameters<typeof yaml["stringify"]>["2"]
 
