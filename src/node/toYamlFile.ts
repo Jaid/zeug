@@ -1,5 +1,6 @@
 import fs from 'fs-extra'
-import {toCleanYaml, toYaml} from 'zeug'
+
+import {toCleanYaml, toYaml} from 'src/toYaml.js'
 
 export const toCleanYamlFile = async (input: unknown, file: string) => {
   const text = toCleanYaml(input)

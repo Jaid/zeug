@@ -1,7 +1,8 @@
 import type {ArgumentsCamelCase, Argv, MiddlewareFunction} from 'yargs'
 
 import mapObject, {mapObjectSkip} from 'map-obj'
-import {renderHandlebars} from 'zeug'
+
+import {renderHandlebars} from 'src/handlebars.js'
 
 type Options = Partial<{
   context: Record<string, unknown>

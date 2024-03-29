@@ -4,7 +4,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./src/index.js"
+      "import": "./src/index.ts"
     },
     "./path": {
       "import": "./src/entry/mixedPath/index.js"
@@ -15,12 +15,45 @@
   },
   "scripts": {
     "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
-    "test": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "build": "wireit",
     "build:production": "wireit",
-    "release": "wireit"
+    "release": "wireit",
+    "test": "wireit",
+    "test-build": "wireit",
+    "test-build:production": "wireit"
   },
   "wireit": {
+    "test": {
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "files": [
+        "src/**/*",
+        "test/**/*",
+        "package.json"
+      ],
+      "command": "node --import tsx test/test.ts"
+    },
+    "test-build": {
+      "env": {
+        "NODE_ENV": "test",
+        "MAIN_MODULE": "./dist/package/epoch-seconds/development/lib.js"
+      },
+      "dependencies": [
+        "build"
+      ],
+      "command": "node --import tsx test/test.ts"
+    },
+    "test-build:production": {
+      "env": {
+        "NODE_ENV": "test",
+        "MAIN_MODULE": "./dist/package/epoch-seconds/production/lib.js"
+      },
+      "dependencies": [
+        "build:production"
+      ],
+      "command": "node --import tsx test/test.ts"
+    },
     "build:production": {
       "env": {
         "NODE_ENV": "production"

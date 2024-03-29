@@ -1,6 +1,6 @@
 import {strict as assert, AssertionError} from 'node:assert'
 
-const greaterThan = (givenValue: BigInt | number | string, expectedValue: number) => {
+function greaterThan(givenValue: BigInt | number | string, expectedValue: number): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -16,7 +16,7 @@ const greaterThan = (givenValue: BigInt | number | string, expectedValue: number
     })
   }
 }
-const greaterThanOrEqual = (givenValue: BigInt | number | string, expectedValue: number) => {
+function greaterThanOrEqual(givenValue: BigInt | number | string, expectedValue: number): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -32,7 +32,7 @@ const greaterThanOrEqual = (givenValue: BigInt | number | string, expectedValue:
     })
   }
 }
-const lessThan = (givenValue: BigInt | number | string, expectedValue: number) => {
+function lessThan(givenValue: BigInt | number | string, expectedValue: number): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -48,7 +48,7 @@ const lessThan = (givenValue: BigInt | number | string, expectedValue: number) =
     })
   }
 }
-const lessThanOrEqual = (givenValue: BigInt | number | string, expectedValue: number) => {
+function lessThanOrEqual(givenValue: BigInt | number | string, expectedValue: number): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -64,7 +64,7 @@ const lessThanOrEqual = (givenValue: BigInt | number | string, expectedValue: nu
     })
   }
 }
-const numberBetween = (givenValue: BigInt | number | string, floorInclusive: number, ceilInclusive: number) => {
+function numberBetween(givenValue: BigInt | number | string, floorInclusive: number, ceilInclusive: number): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -80,7 +80,7 @@ const numberBetween = (givenValue: BigInt | number | string, floorInclusive: num
     })
   }
 }
-const notInteger = (givenValue: number | string) => {
+function notInteger(givenValue: number | string): asserts givenValue is number {
   let number: number
   try {
     number = Number(givenValue)
@@ -104,6 +104,6 @@ const assertExtended = {
   lessThanOrEqual,
   numberBetween,
   notInteger,
-}
+} as const
 
 export {assertExtended as assert}
