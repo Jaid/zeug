@@ -45,5 +45,4 @@ const createInterpolateHandlebarsMiddleware: MiddlewareFactory = (options: Optio
 }
 const interpolateHandlebarsMiddleware = createInterpolateHandlebarsMiddleware()
 
-export default interpolateHandlebarsMiddleware
 export {createInterpolateHandlebarsMiddleware, interpolateHandlebarsMiddleware}
