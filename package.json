@@ -18,6 +18,7 @@
     "build": "wireit",
     "build:production": "wireit",
     "release": "wireit",
+    "release:windows": "wireit",
     "test": "wireit",
     "test-build": "wireit",
     "test-build:production": "wireit"
@@ -37,7 +38,7 @@
     "test-build": {
       "env": {
         "NODE_ENV": "test",
-        "MAIN_MODULE": "./dist/package/epoch-seconds/development/lib.js"
+        "MAIN_MODULE": "./dist/package/zeug/development/lib.js"
       },
       "dependencies": [
         "build"
@@ -47,7 +48,7 @@
     "test-build:production": {
       "env": {
         "NODE_ENV": "test",
-        "MAIN_MODULE": "./dist/package/epoch-seconds/production/lib.js"
+        "MAIN_MODULE": "./dist/package/zeug/production/lib.js"
       },
       "dependencies": [
         "build:production"
@@ -59,7 +60,7 @@
         "NODE_ENV": "production"
       },
       "output": [
-        "dist/package/epoch-seconds/production"
+        "dist/package/zeug/production"
       ],
       "files": [
         "src/**/*",
@@ -73,7 +74,7 @@
         "NODE_ENV": "development"
       },
       "output": [
-        "dist/package/epoch-seconds/development"
+        "dist/package/zeug/development"
       ],
       "files": [
         "src/**/*",
@@ -84,12 +85,14 @@
     },
     "release": {
       "dependencies": [
+        "test-build:production",
         "build:production"
       ],
       "command": "fd --unrestricted --full-path 'dist/package/[\\w-]+/production/package.json' --exec bash -c 'npm publish {//}'"
     },
     "release:windows": {
       "dependencies": [
+        "test-build:production",
         "build:production"
       ],
       "command": "pwsh -Command \"Get-ChildItem -Path 'dist\\package\\*\\production\\package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
@@ -98,35 +101,15 @@
   "dependencies": {
     "@prettier/sync": "^0.5.1",
     "format-thousands": "^2.0.0",
-    "immer": "^10.0.4"
-  },
-  "peerDependencies": {
-    "fs-extra": "^11.2.0",
-    "handlebars": "^4.7.8",
-    "super-regex": "^0.3.0",
-    "type-fest": "^4.10.3",
+    "immer": "^10.0.4",
     "yaml": "^2.3.4",
-    "yargs": "^17.7.2"
+    "super-regex": "^0.3.0",
+    "handlebars": "^4.7.8"
   },
-  "peerDependenciesMeta": {
-    "handlebars": {
-      "optional": true
-    },
-    "type-fest": {
-      "optional": true
-    },
-    "yargs": {
-      "optional": true
-    },
-    "super-regex": {
-      "optional": true
-    },
-    "fs-extra": {
-      "optional": true
-    },
-    "yaml": {
-      "optional": true
-    }
+  "optionalDependencies": {
+    "fs-extra": "^11.2.0",
+    "type-fest": "^4.10.3",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
@@ -134,13 +117,10 @@
     "dts-bundle-generator": "^9.3.1",
     "eslint-config-jaid": "^8.24.0",
     "fs-extra": "^11.2.0",
-    "handlebars": "^4.7.8",
     "rollup-config-factory": "^0.3.0",
-    "super-regex": "^0.3.0",
     "tsconfig-jaid-node": "^8.1.0",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3",
-    "yaml": "^2.4.1",
     "yargs": "^17.7.2"
   }
 }
