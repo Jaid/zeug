@@ -59,7 +59,7 @@
     "handlebars": "^4.7.8",
     "rollup-config-factory": "^0.3.0",
     "super-regex": "^0.3.0",
-    "tsconfig-jaid-node": "^8.0.0",
+    "tsconfig-jaid-node": "^8.1.0",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3",
     "yaml": "^2.4.1",
