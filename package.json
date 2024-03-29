@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@prettier/sync": "^0.5.1",
+    "format-thousands": "^2.0.0",
     "immer": "^10.0.4"
   }
 }
