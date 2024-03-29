@@ -28,7 +28,7 @@ type KeyMeta = {
 export const expandMaps = <T extends Record<Key, unknown>>(input: T, dynamicPredicate: DynamicPredicate = defaultDynamicPredicate, keyMapper: KeyMapper = defaultKeyMapper) => {
   const keys: Partial<Record<keyof T, KeyMeta>> = {}
   for (const [key, value] of Object.entries(input)) {
-    const currentKey = <keyof T> key
+    const currentKey = key as keyof T
     const meta: KeyMeta = {
       isActuallyDynamic: false,
       isDynamic: dynamicPredicate(key, value),
@@ -53,14 +53,14 @@ export const expandMaps = <T extends Record<Key, unknown>>(input: T, dynamicPred
     return [input]
   }
   const combinations = dynamicKeys.reduce((accumulator, key) => {
-    const currentArray = <unknown[]> input[key]
+    const currentArray = input[key] as Array<unknown>
     return accumulator.flatMap(accumulatorElement => {
       return currentArray.map(currentArrayElement => {
         return [...accumulatorElement, currentArrayElement]
       })
     })
   }, [[]])
-  const output = <T[]> combinations.map(combination => {
+  const output = combinations.map(combination => {
     const result = {}
     for (const key of Object.keys(keys)) {
       const keyMeta = keys[key]!
@@ -69,6 +69,6 @@ export const expandMaps = <T extends Record<Key, unknown>>(input: T, dynamicPred
       result[normalizedKey] = value
     }
     return result
-  })
+  }) as Array<T>
   return output
 }

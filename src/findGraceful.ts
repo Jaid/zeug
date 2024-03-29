@@ -3,16 +3,16 @@ export type SearchResolver<T> = ((entry: T, index: number) => string)
 const makeCompact = (key: string) => {
   return key.replaceAll(/\W/g, ``)
 }
-export function findGracefulIndex(needle: string, haystack: string[]): number | undefined
-export function findGracefulIndex(needle: string, haystack: Record<string, unknown>[], searchResolver: string): number | undefined
-export function findGracefulIndex<HaystackEntryGeneric>(needle: string, haystack: HaystackEntryGeneric[], searchResolver: SearchResolver<HaystackEntryGeneric>): number | undefined
-export function findGracefulIndex<HaystackEntryGeneric>(needle: string, haystack: HaystackEntryGeneric[], searchResolver?: SearchResolver<HaystackEntryGeneric> | string) {
-  const resolvedKeys: string[] = []
+export function findGracefulIndex(needle: string, haystack: Array<string>): number | undefined
+export function findGracefulIndex(needle: string, haystack: Array<Record<string, unknown>>, searchResolver: string): number | undefined
+export function findGracefulIndex<HaystackEntryGeneric>(needle: string, haystack: Array<HaystackEntryGeneric>, searchResolver: SearchResolver<HaystackEntryGeneric>): number | undefined
+export function findGracefulIndex<HaystackEntryGeneric>(needle: string, haystack: Array<HaystackEntryGeneric>, searchResolver?: SearchResolver<HaystackEntryGeneric> | string) {
+  const resolvedKeys: Array<string> = []
   let resolvedSearchResolver: SearchResolver<HaystackEntryGeneric>
   if (searchResolver === undefined) {
-    resolvedSearchResolver = (entry: HaystackEntryGeneric) => <string> entry
+    resolvedSearchResolver = (entry: HaystackEntryGeneric) => (entry as string)
   } else if (typeof searchResolver === `string`) {
-    resolvedSearchResolver = (entry: HaystackEntryGeneric) => <string> entry[searchResolver]
+    resolvedSearchResolver = (entry: HaystackEntryGeneric) => (entry[searchResolver] as string)
   } else {
     resolvedSearchResolver = searchResolver
   }
@@ -38,16 +38,16 @@ export function findGracefulIndex<HaystackEntryGeneric>(needle: string, haystack
 
 // This function implementation is a clone of findGracefulIndex (only difference are the resolved indexes),
 // but I don’t know how to pass down the arguments without getting TypeScript overload errors
-export function findGraceful(needle: string, haystack: string[], searchResolver?: SearchResolver<string>): string | undefined
-export function findGraceful<HaystackEntryGeneric extends Record<string, unknown>>(needle: string, haystack: HaystackEntryGeneric[], searchResolver: string): HaystackEntryGeneric | undefined
-export function findGraceful<HaystackEntryGeneric>(needle: string, haystack: HaystackEntryGeneric[], searchResolver: SearchResolver<HaystackEntryGeneric>): HaystackEntryGeneric | undefined
-export function findGraceful<HaystackEntryGeneric>(needle: string, haystack: HaystackEntryGeneric[], searchResolver?: SearchResolver<HaystackEntryGeneric> | string) {
-  const resolvedKeys: string[] = []
+export function findGraceful(needle: string, haystack: Array<string>, searchResolver?: SearchResolver<string>): string | undefined
+export function findGraceful<HaystackEntryGeneric extends Record<string, unknown>>(needle: string, haystack: Array<HaystackEntryGeneric>, searchResolver: string): HaystackEntryGeneric | undefined
+export function findGraceful<HaystackEntryGeneric>(needle: string, haystack: Array<HaystackEntryGeneric>, searchResolver: SearchResolver<HaystackEntryGeneric>): HaystackEntryGeneric | undefined
+export function findGraceful<HaystackEntryGeneric>(needle: string, haystack: Array<HaystackEntryGeneric>, searchResolver?: SearchResolver<HaystackEntryGeneric> | string) {
+  const resolvedKeys: Array<string> = []
   let resolvedSearchResolver: SearchResolver<HaystackEntryGeneric>
   if (searchResolver === undefined) {
-    resolvedSearchResolver = (entry: HaystackEntryGeneric) => <string> entry
+    resolvedSearchResolver = (entry: HaystackEntryGeneric) => (entry as string)
   } else if (typeof searchResolver === `string`) {
-    resolvedSearchResolver = (entry: HaystackEntryGeneric) => <string> entry[searchResolver]
+    resolvedSearchResolver = (entry: HaystackEntryGeneric) => (entry[searchResolver] as string)
   } else {
     resolvedSearchResolver = searchResolver
   }

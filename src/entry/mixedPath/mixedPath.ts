@@ -13,10 +13,10 @@ export const slash = (fileOrFolder: string) => {
 export const normalize = (fileOrFolder: string): string => {
   return slash(pathNative.normalize(fileOrFolder))
 }
-export const join = (...pathSegments: string[]): string => {
+export const join = (...pathSegments: Array<string>): string => {
   return slash(pathNative.join(...pathSegments))
 }
-export const resolve = (...pathSegments: string[]): string => {
+export const resolve = (...pathSegments: Array<string>): string => {
   return slash(pathNative.resolve(...pathSegments))
 }
 export const isAbsolute = (fileOrFolder: string): boolean => {
