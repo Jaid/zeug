@@ -6,9 +6,6 @@
     ".": {
       "import": "./src/index.ts"
     },
-    "./path": {
-      "import": "./src/entry/mixedPath/index.js"
-    },
     "./types": {
       "import": "./src/types/index.js"
     }
