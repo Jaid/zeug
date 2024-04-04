@@ -92,7 +92,7 @@
         "test-build:production",
         "build:production"
       ],
-      "command": "pwsh -Command \"Get-ChildItem -Path 'dist\\package\\*\\production\\package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
+      "command": "pwsh -Command \"Get-ChildItem -Path 'dist/package/*/production/package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
     }
   },
   "dependencies": {
