@@ -2,14 +2,7 @@
   "name": "zeug",
   "version": "0.4.0",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts"
-    },
-    "./types": {
-      "import": "./src/types/index.js"
-    }
-  },
+  "exports": "./src/index.ts",
   "scripts": {
     "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "build": "wireit",
