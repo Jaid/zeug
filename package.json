@@ -89,10 +89,10 @@
     }
   },
   "dependencies": {
-    "@prettier/sync": "^0.5.1",
+    "@prettier/sync": "^0.5.2",
     "format-thousands": "^2.0.0",
-    "immer": "^10.0.4",
-    "yaml": "^2.4.1",
+    "immer": "^10.1.1",
+    "yaml": "^2.4.2",
     "super-regex": "^1.0.0",
     "handlebars": "^4.7.8"
   },
@@ -103,15 +103,15 @@
     "normalize-package-data": "^6.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.12",
     "@types/yargs": "^17.0.32",
-    "dts-bundle-generator": "^9.3.1",
-    "eslint-config-jaid": "^8.24.0",
+    "dts-bundle-generator": "^9.5.1",
+    "eslint-config-jaid": "^10.0.0",
     "fs-extra": "^11.2.0",
-    "rollup-config-factory": "^0.3.0",
+    "rollup-config-factory": "^0.4.0",
     "tsconfig-jaid-node": "^8.1.0",
-    "type-fest": "^4.14.0",
-    "typescript": "^5.4.4",
+    "type-fest": "^4.18.2",
+    "typescript": "^5.4.5",
     "yargs": "^17.7.2"
   }
 }
