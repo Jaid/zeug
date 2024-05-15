@@ -99,7 +99,8 @@
   "optionalDependencies": {
     "fs-extra": "^11.2.0",
     "type-fest": "^4.15.0",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "normalize-package-data": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
