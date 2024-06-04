@@ -17,15 +17,15 @@ const defaultSingleOptions: Parameters<typeof firstMatch>[2] = {
   timeout: 600_000,
 }
 
-export const findNamedGroups = <T extends Record<string, string> | string>(string: string, regex: RegExp, matchOptions = defaultOptions) => {
+export const findNamedGroups = <T extends Record<string, string> | string>(string: string, regex: RegExp, matchOptions = defaultSingleOptions) => {
+  const result = firstMatch(regex, string, matchOptions) as MatchFromKeys<T>
+  return result.namedGroups
+}
+
+export const findNamedGroupsGlobal = <T extends Record<string, string> | string>(string: string, regex: RegExp, matchOptions = defaultOptions) => {
   const result = matches(regex, string, matchOptions) as Iterable<MatchFromKeys<T>>
   const mapped = Array.from(result, match => match.namedGroups)
   return mapped
-}
-
-export const findNamedGroupsSingle = <T extends Record<string, string> | string>(string: string, regex: RegExp, matchOptions = defaultSingleOptions) => {
-  const result = firstMatch(regex, string, matchOptions) as MatchFromKeys<T>
-  return result.namedGroups
 }
 
 export const findNamedGroup = (string: string, regex: RegExp, groupName: string, matchOptions = defaultSingleOptions) => {
