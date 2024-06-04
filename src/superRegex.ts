@@ -27,3 +27,13 @@ export const findNamedGroupsSingle = <T extends Record<string, string> | string>
   const result = firstMatch(regex, string, matchOptions) as MatchFromKeys<T>
   return result.namedGroups
 }
+
+export const findNamedGroup = (string: string, regex: RegExp, groupName: string, matchOptions = defaultSingleOptions) => {
+  const result = firstMatch(regex, string, matchOptions)
+  return result?.namedGroups[groupName]
+}
+
+export const findGroup = (string: string, regex: RegExp, groupIndex = 0, matchOptions = defaultSingleOptions) => {
+  const result = firstMatch(regex, string, matchOptions)
+  return result?.groups[groupIndex]
+}
