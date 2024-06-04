@@ -106,11 +106,11 @@
     "@types/node": "^20.14.1",
     "@types/yargs": "^17.0.32",
     "dts-bundle-generator": "^9.5.1",
-    "eslint-config-jaid": "^10.3.2",
+    "eslint-config-jaid": "^10.4.0",
     "fs-extra": "^11.2.0",
     "rollup-config-factory": "^0.4.1",
     "tsconfig-jaid-node": "^8.1.0",
-    "type-fest": "^4.18.2",
+    "type-fest": "^4.18.3",
     "typescript": "^5.4.5",
     "yargs": "^17.7.2"
   }
