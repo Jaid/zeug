@@ -4,16 +4,58 @@
   "type": "module",
   "exports": "./src/index.ts",
   "scripts": {
-    "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "build": "wireit",
     "build:production": "wireit",
     "release": "wireit",
     "release:windows": "wireit",
+    "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "test": "wireit",
     "test-build": "wireit",
     "test-build:production": "wireit"
   },
   "wireit": {
+    "build": {
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "output": [
+        "dist/package/zeug/development"
+      ],
+      "files": [
+        "src/**/*",
+        "rollup.config.js",
+        "package.json"
+      ],
+      "command": "node node_modules/rollup/dist/bin/rollup --config"
+    },
+    "build:production": {
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "output": [
+        "dist/package/zeug/production"
+      ],
+      "files": [
+        "src/**/*",
+        "rollup.config.js",
+        "package.json"
+      ],
+      "command": "node node_modules/rollup/dist/bin/rollup --config"
+    },
+    "release": {
+      "dependencies": [
+        "test-build:production",
+        "build:production"
+      ],
+      "command": "fd --unrestricted --full-path 'dist/package/[\\w-]+/production/package.json' --exec bash -c 'npm publish {//}'"
+    },
+    "release:windows": {
+      "dependencies": [
+        "test-build:production",
+        "build:production"
+      ],
+      "command": "pwsh -Command \"Get-ChildItem -Path 'dist/package/*/production/package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
+    },
     "test": {
       "env": {
         "NODE_ENV": "test"
@@ -44,63 +86,23 @@
         "build:production"
       ],
       "command": "node --import tsx test/test.ts"
-    },
-    "build:production": {
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "output": [
-        "dist/package/zeug/production"
-      ],
-      "files": [
-        "src/**/*",
-        "rollup.config.js",
-        "package.json"
-      ],
-      "command": "node node_modules/rollup/dist/bin/rollup --config"
-    },
-    "build": {
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "output": [
-        "dist/package/zeug/development"
-      ],
-      "files": [
-        "src/**/*",
-        "rollup.config.js",
-        "package.json"
-      ],
-      "command": "node node_modules/rollup/dist/bin/rollup --config"
-    },
-    "release": {
-      "dependencies": [
-        "test-build:production",
-        "build:production"
-      ],
-      "command": "fd --unrestricted --full-path 'dist/package/[\\w-]+/production/package.json' --exec bash -c 'npm publish {//}'"
-    },
-    "release:windows": {
-      "dependencies": [
-        "test-build:production",
-        "build:production"
-      ],
-      "command": "pwsh -Command \"Get-ChildItem -Path 'dist/package/*/production/package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
     }
   },
   "dependencies": {
     "@prettier/sync": "^0.5.2",
+    "debug": "^4.3.5",
     "format-thousands": "^2.0.0",
-    "immer": "^10.1.1",
-    "yaml": "^2.4.3",
-    "super-regex": "^1.0.0",
-    "handlebars": "^4.7.8",
     "fs-extra": "^11.2.0",
-    "type-fest": "^4.18.3",
-    "yargs": "^17.7.2",
-    "normalize-package-data": "^6.0.1",
+    "handlebars": "^4.7.8",
+    "immer": "^10.1.1",
+    "lodash-es": "^4.17.21",
     "map-obj": "^5.0.2",
-    "prettier": "^3.3.0"
+    "normalize-package-data": "^6.0.1",
+    "prettier": "^3.3.0",
+    "super-regex": "^1.0.0",
+    "type-fest": "^4.18.3",
+    "yaml": "^2.4.3",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/node": "^20.14.1",
