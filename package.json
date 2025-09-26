@@ -6,8 +6,7 @@
   "scripts": {
     "build": "wireit",
     "build:production": "wireit",
-    "release": "wireit",
-    "release:windows": "wireit",
+    "release": "fd --unrestricted --full-path 'dist[\\\\/]package[\\\\/][\\w-]+[\\\\/]production[\\\\/]package.json' --exec bun publish --cwd {//}",
     "start": "printf '%s\\n' 'Script behaviour not specified' >&2",
     "test": "wireit",
     "test-build": "wireit",
@@ -41,20 +40,6 @@
         "package.json"
       ],
       "command": "node node_modules/rollup/dist/bin/rollup --config"
-    },
-    "release": {
-      "dependencies": [
-        "test-build:production",
-        "build:production"
-      ],
-      "command": "fd --unrestricted --full-path 'dist/package/[\\w-]+/production/package.json' --exec bash -c 'npm publish {//}'"
-    },
-    "release:windows": {
-      "dependencies": [
-        "test-build:production",
-        "build:production"
-      ],
-      "command": "pwsh -Command \"Get-ChildItem -Path 'dist/package/*/production/package.json' | ForEach-Object { npm publish $_.DirectoryName }\""
     },
     "test": {
       "env": {
